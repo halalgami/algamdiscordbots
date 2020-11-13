@@ -1,5 +1,10 @@
 Just a small collection of discord bots i made for my own benefit.
 
+Special thanks to:
+https://realpython.com/how-to-make-a-discord-bot-python/#creating-a-discord-connection
+
+for the inspiration and guidance.
+
 main.py currently contains the meme bot, which fetches the freshest memes from the following RSS feeds:
 
     https://www.funnyordie.com/rss/index.xml
