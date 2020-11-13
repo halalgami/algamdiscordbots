@@ -16,6 +16,7 @@ redditmeme = feedparser.parse("https://www.reddit.com/r/memes/.rss?format=xml")
 ranimes = feedparser.parse("https://www.reddit.com/r/animemes/.rss?format=xml")
 theonion = feedparser.parse("http://www.theonion.com/feeds/rss")
 warhammmerfortyk = feedparser.parse("http://rss.moddb.com/groups/warhammer-40k-fans-group/images/feed/rss.xml")
+redditfortyk = feedparser.parse("https://www.reddit.com/r/Warhammer40kmemes/.rss?format=xml")
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -46,6 +47,19 @@ async def on_message(message):
         #print("got a message from :{}".format(message.author))
         
         if 'for the emperor!' in message.content or 'emperor grant me memes' in message.content or '40k' in message.content:
+            random_item = random.choice(redditfortyk.entries)
+            
+            jsondata = random_item.content
+            htmlcontent = jsondata[0]['value']            
+
+            soup = BeautifulSoup(htmlcontent)
+            thememecontainer = soup.find('span')
+            thememe = thememecontainer.find('a')
+            formatted_item = "Title: {} {}".format(random_item.title,thememe['href'])
+            response = formatted_item
+            await message.channel.send(response)
+
+        elif '40k art' in message.content:
             listofentries = warhammmerfortyk.entries
             random_item = random.choice(listofentries)
             #formatted_item = "Title: {} {}".format(random_item.title,random_item.media_thumbnail)
@@ -53,7 +67,6 @@ async def on_message(message):
             formatted_item = "{}".format(random_item.link)
             response = formatted_item
             await message.channel.send(response)
-        
         elif 'memebase' in message.content:
             listofentries = memebase.entries
             random_item = random.choice(listofentries)
@@ -131,7 +144,7 @@ async def on_message(message):
             response = formatted_item
             await message.channel.send(response)
         elif 'help':
-            response = "For fresh memes type one of the following: 40k, memebase,reddit,animemes,onion,9gag,funny or die"
+            response = "For fresh memes type one of the following: 40k,40k art, memebase,reddit,animemes,onion,9gag,funny or die"
             await message.channel.send(response)
         else:
             response = "Hail to you {}! I live for memes!".format(message.author.name)
